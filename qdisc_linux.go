@@ -668,6 +668,7 @@ func parseTbfData(qdisc Qdisc, data []syscall.NetlinkRouteAttr) error {
 			tbf.Peakrate = uint64(opt.Peakrate.Rate)
 			tbf.Limit = opt.Limit
 			tbf.Buffer = opt.Buffer
+			tbf.Minburst = opt.Mtu
 		case nl.TCA_TBF_RATE64:
 			tbf.Rate = native.Uint64(datum.Value[0:8])
 		case nl.TCA_TBF_PRATE64:

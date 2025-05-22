@@ -1,6 +1,7 @@
 package netlink
 
 import (
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -668,7 +669,8 @@ func parseTbfData(qdisc Qdisc, data []syscall.NetlinkRouteAttr) error {
 			tbf.Peakrate = uint64(opt.Peakrate.Rate)
 			tbf.Limit = opt.Limit
 			tbf.Buffer = opt.Buffer
-			tbf.Minburst = opt.Mtu
+			//tbf.Minburst = opt.Mtu
+			tbf.Minburst = binary.LittleEndian.Uint32(datum.Value[nl.SizeofTcTbfQopt-0x4 : nl.SizeofTcTbfQopt])
 		case nl.TCA_TBF_RATE64:
 			tbf.Rate = native.Uint64(datum.Value[0:8])
 		case nl.TCA_TBF_PRATE64:
